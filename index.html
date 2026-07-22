@@ -13,6 +13,7 @@
 <link rel="preload" as="audio" href="click.mp3" type="audio/mpeg">
 <link rel="preload" as="audio" href="swap.mp3" type="audio/mpeg">
 <link rel="preload" as="image" href="stvxlogo.png">
+<link rel="preload" as="video" href="logomotion1.mp4" type="video/mp4">
 <link rel="preload" as="image" href="mouse.png">
 <style>
 :root {
@@ -277,9 +278,9 @@ nav.hidden-nav { transform: translateY(-120%); }
   opacity: 0; transform: scale(.88);
   margin-bottom: 3vh;
 }
-.hero-logo img {
+.hero-logo video {
   width: clamp(200px, 30vw, 420px); height: auto;
-  filter: drop-shadow(0 0 60px rgba(250,199,82,.2));
+  mix-blend-mode: screen;
 }
 .hero-tagline {
   font-size: clamp(.4rem, .8vw, .55rem);
@@ -441,7 +442,7 @@ nav.hidden-nav { transform: translateY(-120%); }
 <section class="hero" id="home">
   <div class="stickers-layer" id="stickersLayer"></div>
   <div class="hero-content">
-    <div class="hero-logo"><img src="stvxlogo.png" alt="STVX"></div>
+    <div class="hero-logo"><video src="logomotion1.mp4" autoplay muted loop playsinline></video></div>
     <div class="hero-tagline">Creative Experience</div>
   </div>
   <div class="hero-bottom">
