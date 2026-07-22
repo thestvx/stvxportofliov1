@@ -8,13 +8,6 @@
 <link rel="preconnect" href="https://cdnjs.cloudflare.com">
 <link rel="preconnect" href="https://unpkg.com">
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
-<link rel="preload" as="image" href="stvxlogo.png">
-<link rel="preload" as="image" href="mouse.png">
-<link rel="preload" href="logomotion1.mp4" type="video/mp4">
-<link rel="preload" href="backgroundmusic1.mp3" type="audio/mpeg">
-<link rel="preload" href="backgroundmusic2.mp3" type="audio/mpeg">
-<link rel="preload" href="click.mp3" type="audio/mpeg">
-<link rel="preload" href="swap.mp3" type="audio/mpeg">
 <style>
 :root {
   --gold: #FAC752;
@@ -277,11 +270,11 @@ nav.hidden-nav { transform: translateY(-120%); }
 .hero-logo {
   opacity: 0; transform: scale(.88);
   margin-bottom: 3vh;
+  line-height: 0;
 }
 .hero-logo video {
   width: clamp(200px, 30vw, 420px); height: auto;
-  mix-blend-mode: screen;
-  background: transparent;
+  display: block;
 }
 .hero-tagline {
   font-size: clamp(.4rem, .8vw, .55rem);
@@ -602,17 +595,25 @@ nav.hidden-nav { transform: translateY(-120%); }
   var gateReady = false;
   var circumference = 2 * Math.PI * 35; /* ~220 */
 
-  /* Start entry music on first user interaction (browser autoplay policy) */
+  /* Start entry music immediately — try autoplay, fallback to interaction */
   var musicStarted = false;
   function startEntryMusic() {
     if (musicStarted) return;
     musicStarted = true;
     playEntryMusic();
   }
-  document.addEventListener('click', startEntryMusic, { once: true });
-  document.addEventListener('mousemove', startEntryMusic, { once: true });
-  document.addEventListener('touchstart', startEntryMusic, { once: true });
-  document.addEventListener('pointerdown', startEntryMusic, { once: true });
+
+  /* Try playing immediately */
+  var tryPlay = audioEntry.play();
+  if (tryPlay) {
+    tryPlay.then(function() { musicStarted = true; }).catch(function() {
+      /* Autoplay blocked — wait for interaction */
+      document.addEventListener('click', startEntryMusic, { once: true });
+      document.addEventListener('mousemove', startEntryMusic, { once: true });
+      document.addEventListener('touchstart', startEntryMusic, { once: true });
+      document.addEventListener('pointerdown', startEntryMusic, { once: true });
+    });
+  }
 
   /* Pre-warm audio buffers */
   audioEntry.load();
