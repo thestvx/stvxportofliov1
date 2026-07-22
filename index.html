@@ -8,13 +8,13 @@
 <link rel="preconnect" href="https://cdnjs.cloudflare.com">
 <link rel="preconnect" href="https://unpkg.com">
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
-<link rel="preload" as="audio" href="backgroundmusic1.mp3" type="audio/mpeg">
-<link rel="preload" as="audio" href="backgroundmusic2.mp3" type="audio/mpeg">
-<link rel="preload" as="audio" href="click.mp3" type="audio/mpeg">
-<link rel="preload" as="audio" href="swap.mp3" type="audio/mpeg">
 <link rel="preload" as="image" href="stvxlogo.png">
-<link rel="preload" as="video" href="logomotion1.mp4" type="video/mp4">
 <link rel="preload" as="image" href="mouse.png">
+<link rel="preload" href="logomotion1.mp4" type="video/mp4">
+<link rel="preload" href="backgroundmusic1.mp3" type="audio/mpeg">
+<link rel="preload" href="backgroundmusic2.mp3" type="audio/mpeg">
+<link rel="preload" href="click.mp3" type="audio/mpeg">
+<link rel="preload" href="swap.mp3" type="audio/mpeg">
 <style>
 :root {
   --gold: #FAC752;
@@ -281,6 +281,7 @@ nav.hidden-nav { transform: translateY(-120%); }
 .hero-logo video {
   width: clamp(200px, 30vw, 420px); height: auto;
   mix-blend-mode: screen;
+  background: transparent;
 }
 .hero-tagline {
   font-size: clamp(.4rem, .8vw, .55rem);
@@ -442,7 +443,7 @@ nav.hidden-nav { transform: translateY(-120%); }
 <section class="hero" id="home">
   <div class="stickers-layer" id="stickersLayer"></div>
   <div class="hero-content">
-    <div class="hero-logo"><video src="logomotion1.mp4" autoplay muted loop playsinline></video></div>
+    <div class="hero-logo"><video src="logomotion1.mp4" autoplay muted loop playsinline preload="auto"></video></div>
     <div class="hero-tagline">Creative Experience</div>
   </div>
   <div class="hero-bottom">
@@ -610,6 +611,14 @@ nav.hidden-nav { transform: translateY(-120%); }
   }
   document.addEventListener('click', startEntryMusic, { once: true });
   document.addEventListener('mousemove', startEntryMusic, { once: true });
+  document.addEventListener('touchstart', startEntryMusic, { once: true });
+  document.addEventListener('pointerdown', startEntryMusic, { once: true });
+
+  /* Pre-warm audio buffers */
+  audioEntry.load();
+  audioMain.load();
+  sfxClick.load();
+  sfxSwap.load();
 
   /* Logo reveal */
   gsap.to(gateLogo, { opacity: 1, scale: 1, duration: .8, delay: .1, ease: 'power3.out' });
